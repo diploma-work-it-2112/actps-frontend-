@@ -1,0 +1,115 @@
+body{
+	background-color: #141414;
+}
+
+.Node-border{
+	width: 110px;
+	height: 110px;
+	background-color: rgba(244, 114, 1, 0.1);
+	border: 1px dashed #F47201;
+	border-radius: 26px;
+	display: flex;
+  	justify-content: center; 
+  	align-items: center;
+}
+
+.Node{
+	width: 84px;
+	height: 84px;
+	background-color: rgba(244, 114, 1, 1);
+	border-radius: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: white;
+}
+
+.router-node-border{
+	background-color: rgba(1, 237, 95, 0.1);
+	border: 1px dashed rgba(1, 237, 95, 1);
+}
+.router-node{
+	background-color: rgba(1, 237, 95, 1);
+}
+
+.left-nav-bar{
+	width: 373px;
+	display: flex;
+	flex-direction: column;
+	padding: 32px;
+	background-color: rgba(21, 21, 21, 1);
+	box-shadow: 5px 0 10px rgba(0, 0, 0, 0.25);
+	height: 100%;
+	position: fixed; 
+    z-index: 1000;
+	transition: width 0.3s ease;
+}
+
+.left-nav-bar.collapsed {
+  width: 44px; 
+  padding: 0; 
+}
+
+.close-open-left-nav-bar{
+	width: 100%;
+	display: flex;
+	justify-content: space-between;	
+}
+
+.close-open-left-nav-bar svg{
+    right: 0;       
+	top: 0;
+}
+
+.close-open-left-nav-bar.right {
+  justify-content: flex-end; 
+  padding-right: 10px; 
+}
+
+.close-open-left-nav-bar.center {
+  justify-content: center; 
+}
+
+.search-left-nav-bar{
+	margin-top: 20px;
+	height: 52px;
+	width: 100%;
+	background-color: rgba(26, 26, 26, 1);
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	border-radius: 13px;
+	align-items: center;
+}
+
+.search-left-nav-bar-text{
+	border: 0;
+	width: 80%;
+	color: rgba(54, 54, 54, 1);
+	margin-left: 10px;
+	background-color: rgba(26, 26, 26, 1);
+	font-size: 18px;
+}
+
+.filter-left-nav-bar{
+	margin-top: 20px;
+	height: 704px;
+	border-radius: 13px;
+	background-color: rgba(26, 26, 26, 1);
+}
+
+.button-scan-left-nav-bar{
+	background: linear-gradient(
+    90deg, 
+    rgba(0, 185, 244, 1), 
+    rgba(0, 244, 73, 1)   
+  	)	;
+	margin-top: 2px;
+	height: 71px;
+	display: flex;
+	justify-content: center;
+	font-size: 24px;
+	border-radius: 13px;
+	font-family: "League Spartan";
+	transform: translateY(-10px);
+}
