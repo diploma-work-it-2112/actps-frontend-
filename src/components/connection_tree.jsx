@@ -48,6 +48,14 @@ export default function ConnectionTree({ routers, pcs }) {
     };
   }, [pcs, routers]);
 
+	useEffect(() => {
+		const interval = setInterval(() => {
+
+		}, 30000);
+
+		return () => clearInterval(interval);
+	}, [])
+
   return (
     <div
       className="canvas"
