@@ -65,7 +65,7 @@ export default function ConnectionTree({ routers, pcs }) {
         <Draggable
           key={router.id}
           defaultPosition={{
-            x: screenCenter.x - 150,
+            x: screenCenter.x + 150,
             y: screenCenter.y / 50,
           }}
           onDrag={() => {
@@ -77,8 +77,8 @@ export default function ConnectionTree({ routers, pcs }) {
             style={{
               position: "relative",
               opacity: router.opacity || 1,
-              width: "70px",
-              height: "70px",
+              width: "100px",
+              height: "100px",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -151,8 +151,8 @@ export default function ConnectionTree({ routers, pcs }) {
           style={{
             position: "relative",
             opacity: pc.opacity || 1,
-            width: "70px",
-            height: "70px",
+            width: "100px",
+            height: "100px",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -162,7 +162,6 @@ export default function ConnectionTree({ routers, pcs }) {
           }}
         >
         
-          
           <div //Внешний эффект (фон + пунктирная граница)
             style={{
               position: "absolute",
@@ -177,7 +176,7 @@ export default function ConnectionTree({ routers, pcs }) {
             }}
           />
 
-         
+        	<a href={"monitoring-system/"}>
           <span //Имя ПК (hostname)
             style={{
               position: "absolute",
@@ -207,6 +206,7 @@ export default function ConnectionTree({ routers, pcs }) {
           >
             <IconPC style={{ width: "55px", height: "55px" }} />
           </div>
+		</a>
         </div>
       </Draggable>
     )

@@ -4,7 +4,7 @@ export default function AllProcesses() {
 	  const [processes, setProcesses] = useState([]);
 
 	  useEffect(() => {
-			const ws = new WebSocket("ws://127.0.0.1:8000/v1/ws/process");
+			const ws = new WebSocket("ws://192.168.161.75:8000/v1/ws/process");
 
 			
 			ws.onopen = () => {
@@ -13,7 +13,6 @@ export default function AllProcesses() {
 
 			
 			ws.onmessage = (event) => {
-			  	console.log("Получено сообщение:", event.data);
 			  	try {
 					const data = JSON.parse(event.data); 
 					setProcesses(data);

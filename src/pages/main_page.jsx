@@ -12,40 +12,8 @@ export default function MainPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const jsonData = [
-        {
-          id: 1,
-          model_name: "Router1",
-          ip_address: "192.168.1.1",
-          hostname: "router1.local",
-          created_at: "2023-01-01T12:00:00Z",
-          pcs: [
-            { id: 1, ip_address: "192.168.1.101", hostname: "PC1", router_id: 1, created_at: "2023-01-02T12:00:00Z" },
-            { id: 2, ip_address: "192.168.1.102", hostname: "PC2", router_id: 1, created_at: "2023-01-02T12:00:00Z" },
-          ],
-        },
-        {
-          id: 2,
-          model_name: "Router2",
-          ip_address: "192.168.2.1",
-          hostname: "router2.local",
-          created_at: "2023-01-01T12:00:00Z",
-          pcs: [
-            { id: 3, ip_address: "192.168.2.101", hostname: "PC1", router_id: 2, created_at: "2023-01-02T12:00:00Z" },
-          ],
-        },
-        {
-          id: 3,
-          model_name: "Router3",
-          ip_address: "192.168.3.1",
-          hostname: "router3.local",
-          created_at: "2023-01-01T12:00:00Z",
-          pcs: [
-            { id: 4, ip_address: "192.168.3.101", hostname: "PC1", router_id: 3, created_at: "2023-01-02T12:00:00Z" },
-          ],
-        },
-      ];
-
+		const response = await fetch("http://127.0.0.1:8000/v1/router");
+		const jsonData = await response.json()
       // Преобразуем JSON в объекты класса Router
       const routers = jsonData.map((routerData) => new Router(routerData));
 
