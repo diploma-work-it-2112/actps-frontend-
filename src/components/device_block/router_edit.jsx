@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-export default function RouterPropertiesBlock({router, handleClose, handleEdit}){
+export default function RouterEditBlock({router, handleClose}){
 	const blockRef = useRef(null);
 
 	useEffect(() => {
@@ -37,7 +37,7 @@ export default function RouterPropertiesBlock({router, handleClose, handleEdit})
 
 			<div className="router-prop-fiels">
 				<p className="router-prop-f-title">Model Name</p>
-				<p className="router-prop-f-value">{router.model_name}</p>
+				<input type="text" className="router-prop-input" value={router.model_name}/>
 			</div>
 
 			<div className="router-prop-fiels">
@@ -57,10 +57,11 @@ export default function RouterPropertiesBlock({router, handleClose, handleEdit})
 
 			
 			<div className="router-prop-button-group">
-				<button onClick={handleClose} className="router-prop-button">Close</button>
-				<button onClick={handleClose} className="router-prop-button">Edit</button>
+				<button onClick={handleClose} className="router-prop-button">Cancle</button>
+				<button onClick={handleClose} className="router-prop-button">Save</button>
 			</div>
 		</div>
 		</div>
 	)
 }
+

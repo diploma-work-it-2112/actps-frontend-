@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import IconPC from "../../icons/IconPC";
 import IconNetwork from "../../icons/IconNetwork";
 import RouterPropertiesBlock from "./router_prop";
+import RouterEditBlock from "./router_edit";
 
 
 export default function RouterBlock({router, screenCenter, linesRef}){
@@ -14,6 +15,7 @@ export default function RouterBlock({router, screenCenter, linesRef}){
   	const navigate = useNavigate();
 
 	const [propertyBlockVisible, setPropertyBlockVis] = useState(false);
+	const [editBlockVisible, setEditBlockVisible] = useState(false);
 
   	const handleContextMenu = (e) => {
     	e.preventDefault();
@@ -171,6 +173,9 @@ export default function RouterBlock({router, screenCenter, linesRef}){
 		{propertyBlockVisible && (
 				<RouterPropertiesBlock router={router} handleClose={() => setPropertyBlockVis(false)} />
 			)}
+		{editBlockVisible && (
+			<RouterEditBlock router={router}/>
+		)}
 	</>
 	)
 }
