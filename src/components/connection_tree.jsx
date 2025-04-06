@@ -22,7 +22,7 @@ export default function ConnectionTree({ routers, pcs, selectedItems, setSelecte
           const pcElement = document.getElementById(`pc-${pc.id}`);
           if (routerElement && pcElement) {
             return new LeaderLine(routerElement, pcElement, {
-              color: router.color,
+              color:pc.is_work ? router.color : "#4f4f4f",
               size: 4,
               endPlug: "behind",
               startSocket: "right",
@@ -211,16 +211,10 @@ export default function ConnectionTree({ routers, pcs, selectedItems, setSelecte
         
           <div //Внешний эффект (фон + пунктирная граница)
             style={{
-              position: "absolute",
-              top: "-12px",
-              left: "-12px",
-              right: "-12px",
-              bottom: "-15px",
-              backgroundColor: `${pc.color}23`,
-              border: `2px dotted ${pc.color}`,
-              borderRadius: "29px",
-              zIndex: "1",
-            }}
+				backgroundColor: pc.is_work ? `${pc.color}23` : 'rgba(217, 217, 217, 0.137)',
+				border: pc.is_work ? `2px dotted ${pc.color}` : '2px dotted rgba(255,255,255,1)',
+			}}
+			className="external-effect"
           />
 
         	<a href={"monitoring-system/"}>
@@ -240,15 +234,15 @@ export default function ConnectionTree({ routers, pcs, selectedItems, setSelecte
        
           <div
             style={{ //Блок с иконкой ПК
-              backgroundColor: pc.color,
-              borderRadius: "12px",
-              width: "60px",
-              height: "60px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              boxShadow: `0 0 8px ${pc.color}`,
-              zIndex: "3",
+				backgroundColor: pc.is_work ? pc.color : "#4f4f4f",
+              	borderRadius: "12px",
+              	width: "60px",
+              	height: "60px",
+              	display: "flex",
+              	alignItems: "center",
+              	justifyContent: "center",
+              	boxShadow: pc.is_work ? `0 0 8px ${pc.color}` : "",
+              	zIndex: "3",
             }}
           >
             <IconPC style={{ width: "55px", height: "55px" }} />

@@ -254,6 +254,14 @@ body{
 
 
 .external-effect{
-
+	position: absolute;
+	top: -12px;
+	left: -12px;
+	right: -12px;
+	bottom: -15px;
+	/* backgroundColor: `pc.color}23; */
+	/* border: 2px dotted ${pc.color}; */
+	border-radius: 29px;
+	z-index: 1;
 }
 
