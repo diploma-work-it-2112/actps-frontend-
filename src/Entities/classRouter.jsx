@@ -15,19 +15,23 @@ function getRandomColor() {
 }
 
 class Router {
-  constructor({ id, model_name, ip_address, hostname, created_at, color, computers = [], checked = false, opacity = 1 }) {
-    this.id = id;
-    this.model_name = model_name;
-    this.color = color;
-    this.ip_address = ip_address;
-    this.hostname = hostname;
-    this.created_at = new Date(created_at);
-    this.checked = checked;
-    this.opacity = opacity;
-    this.computers = computers.map(
-      (pc) => new PC({ ...pc, color: this.color }) // Привязываем цвет маршрутизатора к ПК
-    );
-  }
+	constructor({ id, model_name, ip_address, hostname, created_at, color, computers = [], checked = false, opacity = 1 }) {
+		this.id = id;
+		this.model_name = model_name;
+		this.color = color;
+		this.ip_address = ip_address;
+		this.hostname = hostname;
+		this.created_at = new Date(created_at);
+		this.checked = checked;
+		this.opacity = opacity;
+		this.computers = computers.map(
+		  (pc) => new PC({ ...pc, color: this.color }) // Привязываем цвет маршрутизатора к ПК
+		);
+  	}
+
+	findComputerByHostname(hostname) {
+    	return this.computers.find(pc => pc.hostname === hostname);
+	}
 }
 
 export default Router;

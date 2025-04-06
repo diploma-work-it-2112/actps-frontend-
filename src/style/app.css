@@ -231,3 +231,29 @@ body{
 	flex-direction: column;
 	margin-right: 20px
 }
+
+.work-indicator{
+	position: absolute;
+  	top: 13px;   
+  	right: 13px;
+ 	width: 14px;
+  	height: 14px;
+  	background-color: green;
+  	border-radius: 50%;
+}
+
+.not-work-indicator{
+	position: absolute;
+  	top: 13px;   
+  	right: 13px;
+ 	width: 14px;
+  	height: 14px;
+  	background-color: #3d3d3d;
+  	border-radius: 50%;
+}
+
+
+.external-effect{
+
+}
+

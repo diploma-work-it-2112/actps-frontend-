@@ -3,8 +3,9 @@ import Draggable from "react-draggable";
 import LeaderLine from "leader-line-new";
 import IconNetwork from "../icons/IconNetwork.jsx"; 
 import IconPC from "../icons/IconPC.jsx"; 
+import api from "../api.jsx";
 
-export default function ConnectionTree({ routers, pcs }) {
+export default function ConnectionTree({ routers, pcs, selectedItems, setSelectedItems }) {
   const screenCenter = {
     x: window.innerWidth / 2,
     y: window.innerHeight / 2,
@@ -49,12 +50,50 @@ export default function ConnectionTree({ routers, pcs }) {
   }, [pcs, routers]);
 
 	useEffect(() => {
-		const interval = setInterval(() => {
+		
+		const fetchData = async () => {
+			try{
+				const response = await api.get('/pc/heartbeat')
+				console.log(response)
+				console.log(routers)
+				const working_list = response.data["result"]
+				if (response.status === 200) {
+					console.log(selectedItems)
+					const updatedRouters = routers.map((router) => {
+						const updatedComputers = router.computers.map((pc) => {
+							let is_work = false;
+							let w_ip = pc.ip_address;
+							Object.entries(working_list).forEach(([w_key, w_value]) => {
+						  		if (pc.hostname === w_key) {
+									is_work = true;
+									w_ip = w_value;
+						  		}
+							});
+							return { ...pc, is_work, ip_address: w_ip };
+					  	});
+						console.log(updatedComputers)
+					  	return { ...router, computers: updatedComputers };
+					});
+				
+					console.log(updatedRouters)
 
+					setSelectedItems(updatedRouters);
+					console.log(pcs)
+					}	
+				}catch (error){
+					console.log(error)
+				}
+		}
+
+		fetchData()
+
+		const interval = setInterval(() => {
+			fetchData()	
 		}, 30000);
 
 		return () => clearInterval(interval);
 	}, [])
+
 
   return (
     <div
@@ -213,6 +252,10 @@ export default function ConnectionTree({ routers, pcs }) {
             }}
           >
             <IconPC style={{ width: "55px", height: "55px" }} />
+			<div
+			    className={pc.is_work ? "work-indicator" : "not-work-indicator"}
+			    style={{ border: `solid 3px #141414` }}
+			/>
           </div>
 		</a>
         </div>
