@@ -5,6 +5,8 @@ import IconNetwork from "../icons/IconNetwork.jsx";
 import IconPC from "../icons/IconPC.jsx"; 
 import api from "../api.jsx";
 import PCBlock from "./device_block/pc_block.jsx";
+import Router from "../router.jsx";
+import RouterBlock from "./device_block/router_block.jsx";
 
 export default function ConnectionTree({ routers, pcs, selectedItems, setSelectedItems }) {
   const screenCenter = {
@@ -110,75 +112,7 @@ export default function ConnectionTree({ routers, pcs, selectedItems, setSelecte
       }}
     >
       {routers.map((router) => (
-        <Draggable
-          key={router.id}
-          defaultPosition={{
-            x: screenCenter.x + 150,
-            y: screenCenter.y / 50,
-          }}
-          onDrag={() => {
-            linesRef.current.forEach((line) => line.position());
-          }}
-        >
-          <div
-            id={`router-${router.id}`}
-            style={{
-              position: "relative",
-              opacity: router.opacity || 1,
-              width: "100px",
-              height: "100px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexDirection: "column",
-              cursor: "pointer",
-              margin: "50px",
-            }}
-          >
-            <div
-              style={{
-                position: "absolute",
-                top: "-12px",
-                left: "-12px",
-                right: "-12px",
-                bottom: "-15px",
-                backgroundColor: `${router.color}23`,
-                border: `2px dotted ${router.color}`,
-                borderRadius: "29px",
-                zIndex: "1",
-              }}
-            />
-
-            <span
-              style={{
-                position: "absolute",
-                bottom: "-12px",
-                color: "#FFF",
-                fontSize: "14px",
-                fontWeight: "bold",
-                zIndex: "2",
-              }}
-            >
-              {router.model_name}
-            </span>
-
-            <div
-              style={{
-                backgroundColor: router.color,
-                borderRadius: "12px",
-                width: "60px",
-                height: "60px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                boxShadow: `0 0 8px ${router.color}`,
-                zIndex: "3",
-              }}
-            >
-              <IconNetwork style={{ width: "55px", height: "55px" }} />
-            </div>
-          </div>
-        </Draggable>
+		  <RouterBlock router={router} screenCenter={screenCenter} linesRef={linesRef}/>
       ))}
 
       {pcs.map(

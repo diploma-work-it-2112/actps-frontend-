@@ -24,6 +24,7 @@ class Router {
 		this.created_at = new Date(created_at);
 		this.checked = checked;
 		this.opacity = opacity;
+		this.is_work = true;
 		this.computers = computers.map(
 		  (pc) => new PC({ ...pc, color: this.color }) // Привязываем цвет маршрутизатора к ПК
 		);

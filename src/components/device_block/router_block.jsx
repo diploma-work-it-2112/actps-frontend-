@@ -2,10 +2,10 @@ import React, {useState, useRef, useEffect} from "react";
 import Draggable from "react-draggable";
 import { useNavigate } from "react-router-dom";
 import IconPC from "../../icons/IconPC";
-import { ws } from "msw";
+import IconNetwork from "../../icons/IconNetwork";
 
 
-export default function PCBlock({pc, screenCenter, linesRef}){
+export default function RouterBlock({router, screenCenter, linesRef}){
 	const [menuVisible, setMenuVisible] = useState(false);
   	const [menuPos, setMenuPos] = useState({ x: 0, y: 0 });
   	const containerRef = useRef(null);
@@ -66,100 +66,100 @@ export default function PCBlock({pc, screenCenter, linesRef}){
 		};
 	  }, [menuVisible]);
 
-  	return (
-      <Draggable
-        key={pc.id}
-        defaultPosition={{
-          x: screenCenter.x + 50,
-          y: screenCenter.y / 500 - 200,
-        }}
-        onDrag={() => {
-          linesRef.current.forEach((line) => line.position());
-        }}
-      >
-        <div
-          id={`pc-${pc.id}`}
-          style={{
-            position: "relative",
-            opacity: pc.opacity || 1,
-            width: "100px",
-            height: "100px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "column",
-            margin: "50px",
+	return(
+		<Draggable
+          key={router.id}
+          defaultPosition={{
+            x: screenCenter.x + 150,
+            y: screenCenter.y / 50,
+          }}
+          onDrag={() => {
+            linesRef.current.forEach((line) => line.position());
           }}
         >
-        
-          <div //Внешний эффект (фон + пунктирная граница)
-            style={{
-				backgroundColor: pc.is_work ? `${pc.color}23` : 'rgba(217, 217, 217, 0.137)',
-				border: pc.is_work ? `2px dotted ${pc.color}` : '2px dotted rgba(255,255,255,1)',
-			}}
-			className="external-effect"
-          />
-
-          <span //Имя ПК (hostname)
-            style={{
-              position: "absolute",
-              bottom: "-12px",
-              color: "#FFF",
-              fontSize: "14px",
-              fontWeight: "bold",
-              zIndex: "2",
-            }}
-          >
-            {pc.hostname}
-          </span>
-
-       
           <div
-            style={{ //Блок с иконкой ПК
-				backgroundColor: pc.is_work ? pc.color : "#4f4f4f",
-              	borderRadius: "12px",
-              	width: "60px",
-              	height: "60px",
-              	display: "flex",
-              	alignItems: "center",
-              	justifyContent: "center",
-              	boxShadow: pc.is_work ? `0 0 8px ${pc.color}` : "",
-              	zIndex: "3",
+            id={`router-${router.id}`}
+            style={{
+              position: "relative",
+              opacity: router.opacity || 1,
+              width: "100px",
+              height: "100px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
+              cursor: "pointer",
+              margin: "50px",
             }}
-			ref={containerRef}
-			onContextMenu={handleContextMenu}
           >
-            	<IconPC style={{ width: "55px", height: "55px" }} />
-				<div
-			    	className={pc.is_work ? "work-indicator" : "not-work-indicator"}
-			    	style={{ border: `solid 3px #141414` }}
-				/>
-          	</div>
-			
+            <div
+              style={{
+                position: "absolute",
+                top: "-12px",
+                left: "-12px",
+                right: "-12px",
+                bottom: "-15px",
+                backgroundColor: `${router.color}23`,
+                border: `2px dotted ${router.color}`,
+                borderRadius: "29px",
+                zIndex: "1",
+              }}
+            />
+
+            <span
+              style={{
+                position: "absolute",
+                bottom: "-12px",
+                color: "#FFF",
+                fontSize: "14px",
+                fontWeight: "bold",
+                zIndex: "2",
+              }}
+            >
+              {router.model_name}
+            </span>
+
+            <div
+              style={{
+                backgroundColor: router.color,
+                borderRadius: "12px",
+                width: "60px",
+                height: "60px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: `0 0 8px ${router.color}`,
+                zIndex: "3",
+              }}
+				ref={containerRef}
+				onContextMenu={handleContextMenu}
+            >
+              <IconNetwork style={{ width: "55px", height: "55px" }} />
+            </div>
 			{menuVisible && (
 				<div className="device-menu" style={{top: menuPos.y, left: menuPos.x}}
 				ref={menuRef}>
 					<p
-					  	className={!pc.is_work ? "device-menu-p-not-active" : "device-menu-p"}
-					  	onClick={pc.is_work ? handleNavigate : undefined}
+					  	className="device-menu-p-not-active"
 					>
 					  Performance
 					</p>
 
 					<p
-					  	className="device-menu-p-not-active"
+					  	className={!router.is_work ? "device-menu-p-not-active" : "device-menu-p"}
 					>
 					  Properties
 					</p>
 
 					<p
-					  	className="device-menu-p-not-active"
+					  	className={!router.is_work ? "device-menu-p-not-active" : "device-menu-p"}
 					>
 					  Edit
 					</p>
 				</div>
 			)}
-        </div>
-      </Draggable>
-  );
+
+          </div>
+        </Draggable>	
+	)
 }
