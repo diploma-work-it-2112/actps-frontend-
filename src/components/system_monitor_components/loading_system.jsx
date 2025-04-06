@@ -5,7 +5,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 
-export default function LoadingSystem(){
+export default function LoadingSystem({ip_address}){
 	
 	const [memoryData, setMemoryData] = useState({
     labels: [],
@@ -27,7 +27,7 @@ export default function LoadingSystem(){
   });
 
   useEffect(() => {
-    const ws = new WebSocket(`ws://192.168.161.75:8000/v1/ws/system_load`);
+    const ws = new WebSocket(`ws://${ip_address}:8000/v1/ws/system_load`);
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);

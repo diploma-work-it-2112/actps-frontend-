@@ -6,7 +6,7 @@ export default function Router(){
     return(
         <Routes>
         	<Route path="/" element={<MainPage />} /> 
-			<Route path="/monitoring-system" element={<SystemMonitor />}/>
+			<Route path="/monitoring-system/:hostname/:ip_address" element={<SystemMonitor />}/>
         </Routes>
     )
 }    

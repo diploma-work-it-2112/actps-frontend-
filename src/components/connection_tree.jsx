@@ -4,6 +4,7 @@ import LeaderLine from "leader-line-new";
 import IconNetwork from "../icons/IconNetwork.jsx"; 
 import IconPC from "../icons/IconPC.jsx"; 
 import api from "../api.jsx";
+import PCBlock from "./device_block/pc_block.jsx";
 
 export default function ConnectionTree({ routers, pcs, selectedItems, setSelectedItems }) {
   const screenCenter = {
@@ -104,7 +105,7 @@ export default function ConnectionTree({ routers, pcs, selectedItems, setSelecte
         right: 0,
         width: "200vh",
         height: "100vh",
-        backgroundColor: "#1e1e1e",
+        backgroundColor: "#141414",
         overflow: "hidden",
       }}
     >
@@ -183,77 +184,7 @@ export default function ConnectionTree({ routers, pcs, selectedItems, setSelecte
       {pcs.map(
   (pc) =>
     pc && (
-      <Draggable
-        key={pc.id}
-        defaultPosition={{
-          x: screenCenter.x + 50,
-          y: screenCenter.y / 500 - 200,
-        }}
-        onDrag={() => {
-          linesRef.current.forEach((line) => line.position());
-        }}
-      >
-        <div
-          id={`pc-${pc.id}`}
-          style={{
-            position: "relative",
-            opacity: pc.opacity || 1,
-            width: "100px",
-            height: "100px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "column",
-            cursor: "pointer",
-            margin: "50px",
-          }}
-        >
-        
-          <div //Внешний эффект (фон + пунктирная граница)
-            style={{
-				backgroundColor: pc.is_work ? `${pc.color}23` : 'rgba(217, 217, 217, 0.137)',
-				border: pc.is_work ? `2px dotted ${pc.color}` : '2px dotted rgba(255,255,255,1)',
-			}}
-			className="external-effect"
-          />
-
-        	<a href={"monitoring-system/"}>
-          <span //Имя ПК (hostname)
-            style={{
-              position: "absolute",
-              bottom: "-12px",
-              color: "#FFF",
-              fontSize: "14px",
-              fontWeight: "bold",
-              zIndex: "2",
-            }}
-          >
-            {pc.hostname}
-          </span>
-
-       
-          <div
-            style={{ //Блок с иконкой ПК
-				backgroundColor: pc.is_work ? pc.color : "#4f4f4f",
-              	borderRadius: "12px",
-              	width: "60px",
-              	height: "60px",
-              	display: "flex",
-              	alignItems: "center",
-              	justifyContent: "center",
-              	boxShadow: pc.is_work ? `0 0 8px ${pc.color}` : "",
-              	zIndex: "3",
-            }}
-          >
-            <IconPC style={{ width: "55px", height: "55px" }} />
-			<div
-			    className={pc.is_work ? "work-indicator" : "not-work-indicator"}
-			    style={{ border: `solid 3px #141414` }}
-			/>
-          </div>
-		</a>
-        </div>
-      </Draggable>
+		<PCBlock pc={pc} screenCenter={screenCenter} linesRef={linesRef}/>
     )
 )}
     </div>

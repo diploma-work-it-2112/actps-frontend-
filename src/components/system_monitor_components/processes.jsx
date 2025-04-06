@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 
-export default function AllProcesses() {
+export default function AllProcesses({ip_address}) {
 	  const [processes, setProcesses] = useState([]);
 
 	  useEffect(() => {
-			const ws = new WebSocket("ws://192.168.161.75:8000/v1/ws/process");
+			const ws = new WebSocket(`ws://${ip_address}:8000/v1/ws/process`);
 
 			
 			ws.onopen = () => {

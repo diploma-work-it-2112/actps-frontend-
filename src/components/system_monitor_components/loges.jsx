@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
 
-export default function Loges({hostname}){
+export default function Loges({hostname, ip_address}){
 
 	const [logs, setLogs] = useState([]);
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const response = await fetch("http://192.168.161.75:8000/v1/log/package/computers-name")
+			const response = await fetch(`http://${ip_address}:8000/v1/log/package/computers-name`)
+			console.log(response)
 			const data = await response.json()
 			setLogs(data)
 		}
 		fetchData();
-	}, [hostname])
+	}, [ip_address])
 	
 	return(
 		<div className="loges-content">
