@@ -15,10 +15,11 @@ function getRandomColor() {
 }
 
 class Router {
-	constructor({ id, model_name, ip_address, hostname, created_at, color, computers = [], checked = false, opacity = 1 }) {
+	constructor({ id, model_name, ip_address, hostname, created_at, color, group_name, computers = [], checked = false, opacity = 1 }) {
 		this.id = id;
 		this.model_name = model_name;
 		this.color = color;
+		this.group_name = group_name;
 		this.ip_address = ip_address;
 		this.hostname = hostname;
 		this.created_at = new Date(created_at);

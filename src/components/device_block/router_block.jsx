@@ -3,6 +3,7 @@ import Draggable from "react-draggable";
 import { useNavigate } from "react-router-dom";
 import IconPC from "../../icons/IconPC";
 import IconNetwork from "../../icons/IconNetwork";
+import RouterPropertiesBlock from "./router_prop";
 
 
 export default function RouterBlock({router, screenCenter, linesRef}){
@@ -11,6 +12,8 @@ export default function RouterBlock({router, screenCenter, linesRef}){
   	const containerRef = useRef(null);
 	const menuRef = useRef(null);
   	const navigate = useNavigate();
+
+	const [propertyBlockVisible, setPropertyBlockVis] = useState(false);
 
   	const handleContextMenu = (e) => {
     	e.preventDefault();
@@ -67,6 +70,7 @@ export default function RouterBlock({router, screenCenter, linesRef}){
 	  }, [menuVisible]);
 
 	return(
+		<>
 		<Draggable
           key={router.id}
           defaultPosition={{
@@ -147,6 +151,7 @@ export default function RouterBlock({router, screenCenter, linesRef}){
 
 					<p
 					  	className={!router.is_work ? "device-menu-p-not-active" : "device-menu-p"}
+						onClick={router.is_work ? () => setPropertyBlockVis(true) : undefined}	
 					>
 					  Properties
 					</p>
@@ -159,7 +164,13 @@ export default function RouterBlock({router, screenCenter, linesRef}){
 				</div>
 			)}
 
+			
+
           </div>
-        </Draggable>	
+        </Draggable>
+		{propertyBlockVisible && (
+				<RouterPropertiesBlock router={router} handleClose={() => setPropertyBlockVis(false)} />
+			)}
+	</>
 	)
 }
