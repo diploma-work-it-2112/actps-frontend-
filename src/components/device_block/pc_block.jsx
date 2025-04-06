@@ -139,9 +139,24 @@ export default function PCBlock({pc, screenCenter, linesRef}){
 			{menuVisible && (
 				<div className="device-menu" style={{top: menuPos.y, left: menuPos.x}}
 				ref={menuRef}>
-					<p className="device-menu-p" onClick={handleNavigate}>Performance</p>
-					<p className="device-menu-p">Properties</p>
-					<p className="device-menu-p">Edit</p>
+					<p
+					  	className={!pc.is_work ? "device-menu-p-not-active" : "device-menu-p"}
+					  	onClick={pc.is_work ? handleNavigate : undefined}
+					>
+					  Performance
+					</p>
+
+					<p
+					  	className={!pc.is_work ? "device-menu-p-not-active" : "device-menu-p"}
+					>
+					  Properties
+					</p>
+
+					<p
+					  	className={!pc.is_work ? "device-menu-p-not-active" : "device-menu-p"}
+					>
+					  Edit
+					</p>
 				</div>
 			)}
         </div>

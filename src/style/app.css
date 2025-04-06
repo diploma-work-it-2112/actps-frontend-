@@ -303,3 +303,16 @@ body{
 .device-menu-p:hover{
 	color: #00B9F4;
 }
+
+.device-menu-p-not-active{
+	color: #363636;
+	height: 61px;
+	width: 100%;
+	padding: 22px 24px;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+.device-menu-p-not-active:not(:last-child){
+	border-bottom: 1px solid #242424;
+}
