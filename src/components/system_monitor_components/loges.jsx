@@ -6,13 +6,13 @@ export default function Loges({hostname, ip_address}){
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const response = await fetch(`http://${ip_address}:8000/v1/log/package/computers-name`)
+			const response = await fetch(`http://127.0.0.1:8000/v1/log/package/${hostname}`)
 			console.log(response)
 			const data = await response.json()
 			setLogs(data)
 		}
 		fetchData();
-	}, [ip_address])
+	}, [hostname])
 	
 	return(
 		<div className="loges-content">

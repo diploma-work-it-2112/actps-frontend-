@@ -4,7 +4,7 @@ export default function AllProcesses({ip_address}) {
 	  const [processes, setProcesses] = useState([]);
 
 	  useEffect(() => {
-			const ws = new WebSocket(`ws://${ip_address}:8000/v1/ws/process`);
+			const ws = new WebSocket(`ws://127.0.0.1:8000/v1/ws/process/${ip_address}`);
 
 			
 			ws.onopen = () => {

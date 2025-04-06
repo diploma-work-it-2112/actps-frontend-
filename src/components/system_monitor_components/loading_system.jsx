@@ -27,7 +27,7 @@ export default function LoadingSystem({ip_address}){
   });
 
   useEffect(() => {
-    const ws = new WebSocket(`ws://${ip_address}:8000/v1/ws/system_load`);
+    const ws = new WebSocket(`ws://127.0.0.1:8000/v1/ws/system_load/${ip_address}`);
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
