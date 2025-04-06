@@ -3,6 +3,7 @@ import Router from "../Entities/classRouter";
 import PC from "../Entities/classPC";
 import ConnectionTree from "../components/connection_tree";
 import LeftNavBar from "../components/navbar";
+import DeviceGroupBlock from "../components/device_group_block";
 
 export default function MainPage() {
 	const [allItems, setAllItems] = useState([]); 
@@ -53,6 +54,8 @@ export default function MainPage() {
 	  			selectedItems={selectedItems}
 	    		setSelectedItems={setSelectedItems}
       		/>
+
+			<DeviceGroupBlock routers={allItems}/>
     	</div>
   	);
 }

@@ -415,3 +415,49 @@ body{
 	border-radius: 3px;
 	margin-right: 10px;
 }
+
+.device-group-container {
+  width: 241px;
+  position: fixed;
+  right: 20px;   /* расстояние от правого края экрана */
+  bottom: 20px;  /* расстояние от нижнего края экрана */
+  /* Дополнительные стили */
+  background-color: #141414;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  padding-right: 25px;
+  padding-left: 25px;
+  border: 1px solid #FFFFFF;
+  border-radius: 16px;
+
+}
+
+.d-group-color{
+	border-radius: 20px;
+	width: 15px;
+	height: 15px;
+	margin-right: 3px;
+}
+
+.device-group-block{
+	display: flex;
+	flex-direction: row;
+	color: white;
+	font-size: 16px;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.d-group-hostname{
+	width: 60px;
+	position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.d-group-groupname{
+	width: 60px;
+	position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+}
