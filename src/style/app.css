@@ -461,3 +461,94 @@ body{
   white-space: nowrap;
   overflow: hidden;
 }
+
+.trafic-packets-block{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.trafic-packet{
+	display: flex;
+	flex-direction: row;
+	color: white;
+	width: 100%;
+	background-color: #141414;
+	margin:0;
+	padding: 0;
+}
+
+.trafic-packet p{
+	color: white;
+	height: 45px;
+
+	border: 1px solid #3D3D3D;
+	font-size: 18px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0;
+}
+
+.trafic-packet-time{
+	width: 250px;
+}
+
+
+.trafic-packet-source{
+	width: 310px;
+}
+
+.trafic-packet-destination{
+	width: 310px;
+}
+
+.trafic-packet-protocol{
+	width: 288px;
+}
+
+.trafic-packet-length{
+	width: 190px;
+}
+
+.trafic-packet-info{
+	width: 360px;
+}
+
+.trafic-container{
+	display: flex;
+	width: 100%;
+	flex-direction: column
+}
+
+.trafic-actives{
+	display: flex;
+	flex-direction: row;
+	box-sizing: border-box;
+	padding: 30px 77px;
+}
+
+.trafic-active-button{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-right: 70px;
+	cursor: pointer;
+}
+
+.trafic-active-button svg{
+	margin-right: 6px;
+}
+
+.trafic-active-button-p{
+	font-size: 24px;
+	color: white;
+	margin: 0;
+}
+
+.trafic-active-button:hover .trafic-active-button-p{
+	color: #00B9F4;
+}
+
