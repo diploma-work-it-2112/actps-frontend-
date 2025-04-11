@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 
 
-export default function ListTraficComponent(){
+export default function ListTraficComponent({ipParam, protoParam}){
 	const [trafic2render, setTrafic2render] = useState([])	
 	const [traficResponse, setTraficResponse] = useState([])
 
@@ -22,22 +22,31 @@ export default function ListTraficComponent(){
 
 	const ws = useRef(null);
 
+  const connectionIdRef = useRef(0);
+
   const startWebSocket = () => {
+    // Инкрементируем идентификатор подключения
+    connectionIdRef.current += 1;
+    const currentConnId = connectionIdRef.current;
+
     if (ws.current) return;
 
-    ws.current = new WebSocket('ws://127.0.0.1:8000/v1/ws/trafic');
+    ws.current = new WebSocket(`ws://127.0.0.1:8000/v1/ws/trafic/?ip=${ipParam}&protocol=${protoParam}`);
 
     ws.current.onopen = () => {
       console.log("WebSocket connection established");
     };
 
     ws.current.onmessage = (event) => {
+      // Если сообщение пришло не от текущей сессии, его пропускаем
+      if (currentConnId !== connectionIdRef.current) return;
       try {
         const data = JSON.parse(event.data);
-        setTrafic2render(prevArray => [data, ...prevArray].slice(0, 100));
+        // Если данные приходят очень часто, можно добавить троттлинг или группировку обновлений
+        setTrafic2render((prevArray) => [data, ...prevArray].slice(0, 100));
         console.log("Updated array length:", trafic2render.length);
       } catch (error) {
-        console.log("Error", error);
+        console.log("Error parsing message data", error);
       }
     };
 
@@ -51,14 +60,21 @@ export default function ListTraficComponent(){
     };
   };
 
-  // Функция для разрыва соединения
   const stopWebSocket = () => {
     if (ws.current) {
       ws.current.close();
       ws.current = null;
     }
   };
+	 useEffect(() => {
+    stopWebSocket();
+    startWebSocket();
 
+    // Очистка при размонтировании компонента
+    return () => {
+      stopWebSocket();
+    };
+  }, [ipParam, protoParam]);
 	
 
 	const protocolColors = {
