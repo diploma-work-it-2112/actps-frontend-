@@ -658,3 +658,26 @@ body{
 	align-items: center;
 	flex-direction: column;
 }
+
+.barchart-network-config{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-top: 50px;
+	margin-bottom: 20px;
+	padding-bottom: 5px;
+	border-bottom: solid 1px #555555;
+}
+
+.network-config-item-label{
+	color: white;
+	font-size: 20px;
+	margin-right: 5px;
+}
+
+.network-config-item-select{
+	background-color: #141414;
+	color: white;
+	border: 0;
+	border-bottom: 1px solid #555555;
+}
