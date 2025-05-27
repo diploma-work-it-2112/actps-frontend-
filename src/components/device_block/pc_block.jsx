@@ -33,6 +33,11 @@ export default function PCBlock({pc, screenCenter, linesRef}){
     	setMenuVisible(false);
   	};
 
+	const treeNavigate = () => {
+		navigate(`/folder-tree/${pc.ip_address}`);
+		setMenuVisible(false)
+	}
+
 	useEffect(() => {
 		const handleMouseMove = (e) => {
 		  	// Если меню не видно, ничего не делаем
@@ -156,6 +161,13 @@ export default function PCBlock({pc, screenCenter, linesRef}){
 					  	className="device-menu-p-not-active"
 					>
 					  Edit
+					</p>
+
+					<p
+					  	className={!pc.is_work ? "device-menu-p-not-active" : "device-menu-p"}
+					  	onClick={pc.is_work ? treeNavigate : undefined}
+					>
+					  Directory
 					</p>
 				</div>
 			)}

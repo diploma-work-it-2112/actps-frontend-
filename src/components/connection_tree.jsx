@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Draggable from "react-draggable";
 import LeaderLine from "leader-line-new";
 import IconNetwork from "../icons/IconNetwork.jsx"; 
@@ -14,6 +14,8 @@ export default function ConnectionTree({ routers, pcs, selectedItems, setSelecte
     y: window.innerHeight / 2,
   };
   const linesRef = useRef([]);
+	const [lastWarning, setLastWarning] = useState(null);
+	const lastWarningIdRef = useRef(null);
 
   useEffect(() => {
     // Создание соединительных линий
@@ -52,6 +54,16 @@ export default function ConnectionTree({ routers, pcs, selectedItems, setSelecte
     };
   }, [pcs, routers]);
 
+
+	const [showWarning, setShowWarning] = useState(false);
+
+// Показывать предупреждение, если новое
+useEffect(() => {
+  if (lastWarning) {
+    setShowWarning(true);
+  }
+}, [lastWarning]);
+
 	useEffect(() => {
 		
 		const fetchData = async () => {
@@ -83,6 +95,15 @@ export default function ConnectionTree({ routers, pcs, selectedItems, setSelecte
 					setSelectedItems(updatedRouters);
 					console.log(pcs)
 					}	
+
+				const response_2 = await api.get('/warning/last')
+				console.log(response_2)
+				const warning = await response_2.data
+				if (!lastWarningIdRef.current || warning.id !== lastWarningIdRef.current) {
+					lastWarningIdRef.current = warning.id;
+					console.log("Новое предупреждение:", warning);
+					setLastWarning(warning);
+				}
 				}catch (error){
 					console.log(error)
 				}
@@ -92,7 +113,7 @@ export default function ConnectionTree({ routers, pcs, selectedItems, setSelecte
 
 		const interval = setInterval(() => {
 			fetchData()	
-		}, 30000);
+		}, 5000);
 
 		return () => clearInterval(interval);
 	}, [])
@@ -106,9 +127,8 @@ export default function ConnectionTree({ routers, pcs, selectedItems, setSelecte
         top: 0,
         right: 0,
         width: "200vh",
-        height: "100vh",
+        height: "100%",
         backgroundColor: "#141414",
-        overflow: "hidden",
       }}
     >
       {routers.map((router) => (
@@ -120,6 +140,15 @@ export default function ConnectionTree({ routers, pcs, selectedItems, setSelecte
     pc && (
 		<PCBlock pc={pc} screenCenter={screenCenter} linesRef={linesRef}/>
     )
+)}
+
+	  {lastWarning && showWarning && (
+  <div className="warning" onClick={() => setShowWarning(false)}>
+    <b>Последнее предупреждение:</b> {lastWarning.message} {lastWarning.hostname}
+    <div style={{ marginTop: "10px", fontSize: "0.9rem", opacity: 0.8 }}>
+      (нажмите, чтобы закрыть)
+    </div>
+  </div>
 )}
     </div>
   );

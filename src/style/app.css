@@ -623,3 +623,26 @@ body{
 	border: 1px solid #3D3D3D;
 	background-color: #141414;
 }
+
+.warning{
+	position: absolute;
+	top: 40px;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	
+	background-color: #8B0000; /* тёмно-красный */
+	color: white;              /* белый текст */
+	
+	padding: 1.2rem 2rem;
+	border-radius: 10px;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+	font-size: 1.1rem;
+	font-weight: bold;
+	text-align: center;
+}	
+
+.directory-content{
+	color: white;
+	font-family: "LeagueSpartan";
+
+}

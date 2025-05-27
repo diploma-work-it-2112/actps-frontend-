@@ -71,6 +71,7 @@ export default function LeftNavBar({ routers, onScan }) {
         onClick={toggleNavBar}
       >
         {isCollapsed ? (
+			<div className="icons-navbar">
           <svg
             width="28"
             height="24"
@@ -96,6 +97,8 @@ export default function LeftNavBar({ routers, onScan }) {
               strokeLinejoin="round"
             />
           </svg>
+
+			</div>
         ) : (
           <svg
             width="28"
@@ -113,7 +116,17 @@ export default function LeftNavBar({ routers, onScan }) {
             />
           </svg>
         )}
+
+	  	
       </div>
+
+	  {isCollapsed ? (
+		  <>
+		  </>
+	  ):(
+		  <>
+		  </>
+	  )}
 
       {!isCollapsed && (
         <>
