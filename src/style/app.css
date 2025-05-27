@@ -646,3 +646,15 @@ body{
 	font-family: "LeagueSpartan";
 
 }
+
+.dashboard-content{
+	margin: 0 auto;
+	width: 1300px;
+}
+
+.dashboard-network{
+	display: flex;
+	justify-content: center; 
+	align-items: center;
+	flex-direction: column;
+}
