@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
-	BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend
+	BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell, Pie, PieChart
 } from 'recharts';
 
 
@@ -9,25 +9,21 @@ export default function NetworkOverviewComponent({traficLogs}){
 
 	const [barchartNetworkType, setBarchartNetworkType] = useState("num_proto")
 
-	const protocolColorMap = [
-	  '#39ff14', // Ether — неоново-зелёный
-	  '#00ffff', // IPv4 — неоновый голубой
-	  '#ff1493', // TCP — глубокий розовый (заменён)
-	  '#ff9933', // UDP — ярко-оранжевый
-	  '#fefe33', // ICMP — неоновый жёлтый
-	  '#8a2be2', // IPv6 — фиолетовый бархат (заменён)
-	  '#00ffcc', // ARP — морской неон
-	  '#ff6ec7', // DNS — розово-фиолетовый
-	  '#da70d6', // HTTP — неоновая сирень
-	  '#1e90ff', // HTTPS — синий
-	  '#bbbbbb'  // Unknown — светло-серый
-	];
+	const protocolColorMap = {
+		Ether: '#39ff14',
+  		IPv4: '#00ffff',
+  		TCP: '#ff1493',
+  		UDP: '#ff9933',
+  		ICMP: '#fefe33',
+  		IPv6: '#8a2be2',
+  		ARP: '#00ffcc',
+  		DNS: '#ff6ec7',
+  		HTTP: '#da70d6',
+  		HTTPS: '#1e90ff',
+  		Unknown: '#bbbbbb',
+	};
 
 
-	const protocols = [
-		"Ether", "IPv4", "TCP", "UDP", "ICMP",
-	  	"IPv6", "ARP", "DNS", "HTTP", "HTTPS", "Unknown"
-	];
 
 
 	const CustomTooltip = ({ active, payload, label }) => {
@@ -87,13 +83,100 @@ export default function NetworkOverviewComponent({traficLogs}){
 		console.log(colorMap)
   		return colorMap;
 	};
-
-	const chartData = generateChartData(traficLogs, barchartNetworkType);
-	const dynamicKeys = chartData.length > 0 ? Object.keys(chartData[0]).filter(k => k !== "name") : [];
+	
+	const chartData = useMemo(() => {
+		return generateChartData(traficLogs, barchartNetworkType);
+	}, [traficLogs, barchartNetworkType]);
+	
+	const dynamicKeys = useMemo(() => {
+  		return chartData.length > 0
+    		? Object.keys(chartData[0]).filter(k => k !== "name")
+    		: [];
+	}, [chartData]);
 
 	const colorMap = barchartNetworkType === "num_proto"
   		? getColorMap(dynamicKeys, protocolColorMap)  // фиксированные
   		: getColorMap(dynamicKeys);    
+
+
+
+
+	const aggregateGroupData = (logs, groupKey, limit = 10) => {
+  		const total = {};
+
+  		logs.forEach(log => {
+    		const group = log[groupKey];
+    		if (!group) return;
+
+    		for (const [key, value] of Object.entries(group)) {
+      			total[key] = (total[key] || 0) + value;
+    		}
+  		});
+
+  		const sorted = Object.entries(total)
+    		.map(([name, value]) => ({ name, value }))
+    		.sort((a, b) => b.value - a.value)  
+
+		return sorted.slice(0, limit); 
+	};
+
+	const getAllKeysFromLogs = (logs, type) => {
+  const allKeys = new Set();
+  logs.forEach(log => {
+    const group = log[type] || {};
+    Object.keys(group).forEach(k => allKeys.add(k));
+  });
+  return Array.from(allKeys);
+};
+
+
+	const protoData = aggregateGroupData(traficLogs, "num_proto", 10);
+	const ipsSrcData = aggregateGroupData(traficLogs, "ips_src", 10);
+	const ipsDstData = aggregateGroupData(traficLogs, "ips_dst", 10);
+	const macsSrcData = aggregateGroupData(traficLogs, "macs_src", 10);
+	const macsDstData = aggregateGroupData(traficLogs, "macs_dst", 10);
+
+const allKeysIpSrc = getAllKeysFromLogs(traficLogs, "ips_src");
+const allKeysIpDst = getAllKeysFromLogs(traficLogs, "ips_dst");
+const allKeysMacsSrc = getAllKeysFromLogs(traficLogs, "macs_src");
+const allKeysMacsDst = getAllKeysFromLogs(traficLogs, "macs_dst");
+
+	const PieChartComponent = ({ data, colorMap }) => (
+  		<PieChart width={300} height={300}>
+    		<Pie
+      			data={data}
+      			dataKey="value"
+			  	nameKey="name"
+			  	cx="50%"
+			  	cy="50%"
+			  	outerRadius={100}
+			  	label
+			>
+    	{data.map((entry, index) => (
+        	<Cell key={`cell-${index}`} fill={colorMap?.[entry.name] || getRandomColor()} />
+      	))}
+    	</Pie>
+    	<Tooltip />
+		<Legend/>
+  		</PieChart>
+	);
+
+	const colorMapProto = getColorMap(dynamicKeys, protocolColorMap);
+const colorMapIpSrc = getColorMap(allKeysIpSrc);
+const colorMapIpDst = getColorMap(allKeysIpDst);
+const colorMapMacsSrc = getColorMap(allKeysMacsSrc);
+const colorMapMacsDst = getColorMap(allKeysMacsDst);
+
+	const activeColorMap = useMemo(() => {
+  		switch (barchartNetworkType) {
+    		case "num_proto": return getColorMap(dynamicKeys, protocolColorMap);
+    		case "ips_src": return colorMapIpSrc;
+    		case "ips_dst": return colorMapIpDst;
+    		case "macs_src": return colorMapMacsSrc;
+    		case "macs_dst": return colorMapMacsDst;
+    	default: return {};
+  		}
+	}, [barchartNetworkType, dynamicKeys]);
 
 
   	return (
@@ -147,13 +230,45 @@ export default function NetworkOverviewComponent({traficLogs}){
 							key={key}
 							dataKey={key}
 							stackId="a"
-							fill={colorMap[key]}
+							fill={activeColorMap[key]}
 							radius={[4, 4, 0, 0]}
 					  	/>
 					))}
 
 
 				</BarChart>
+
+				<div className="pie-charts-container">
+  <div className="pie-charts-group">
+    <div className="pie-chart-box">
+      <h4>Protocols</h4>
+      <PieChartComponent data={protoData} colorMap={colorMapProto} />
+    </div>
+  </div>
+
+  <div className="pie-charts-group">
+    <div className="pie-chart-box">
+      <h4>IP Src</h4>
+      <PieChartComponent data={ipsSrcData} colorMap={colorMapIpSrc} />
+    </div>
+    <div className="pie-chart-box">
+      <h4>IP Dst</h4>
+      <PieChartComponent data={ipsDstData} colorMap={colorMapIpDst} />
+    </div>
+  </div>
+
+  <div className="pie-charts-group">
+    <div className="pie-chart-box">
+      <h4>MAC Src</h4>
+      <PieChartComponent data={macsSrcData} colorMap={colorMapMacsSrc} />
+    </div>
+    <div className="pie-chart-box">
+      <h4>MAC Dst</h4>
+      <PieChartComponent data={macsDstData} colorMap={colorMapMacsDst} />
+    </div>
+  </div>
+</div>
+
 			</div>
 		</div>
   );
